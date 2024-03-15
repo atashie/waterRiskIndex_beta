@@ -55,7 +55,8 @@ waterSupplyProjectionsPlotter_f = function(waterIndexDataPlot = NA, groundwaterA
   
   
   # waterIndexPlot is in format [location, decade, indexValueQuant, scenario, indexValue, indexValueClass]
-  plotRange = c(min(min(cumsum(Q05))*1.025, 0.9),  max(max(cumsum(Q95))*1.025, 1.1))
+  plotRange = c(min(min(cumsum(ifelse(is.na(Q05), 0, Q05)) + Q05*0)*1.025, 0.9),
+                max(max(cumsum(ifelse(is.na(Q95), 0, Q95)) + Q95*0)*1.025, 1.1))
   plot(nc_decade, Q50,  
        ylim = plotRange, #log='y',
        type='l', lwd=1, col='white', xaxt = 'n', #log='y',
@@ -67,11 +68,11 @@ waterSupplyProjectionsPlotter_f = function(waterIndexDataPlot = NA, groundwaterA
     axis(1, at = nc_decade ,col.lab='#1A232F', col.axis='#666D74', 
          labels = nc_decade)
     #	abline(v=fstOfMnths, lwd=1, col=adjustcolor('#666D74', alpha.f=0.1))
-    polygon(x=c(nc_decade, rev(nc_decade)), y=c(cumsum(Q05), rev(cumsum(Q95))) + c(marScaled, rev(marScaled)),
+    polygon(x=c(nc_decade, rev(nc_decade)), y=c(cumsum(ifelse(is.na(Q05), 0, Q05)) + Q05*0, rev(cumsum(ifelse(is.na(Q95), 0, Q95)) + Q95*0)) + c(marScaled, rev(marScaled)),
             col=adjustcolor('#0098B2', alpha.f=0.1), border=NA)
-    polygon(x=c(nc_decade, rev(nc_decade)), y=c(cumsum(Q10), rev(cumsum(Q90))) + c(marScaled, rev(marScaled)),
+    polygon(x=c(nc_decade, rev(nc_decade)), y=c(cumsum(ifelse(is.na(Q10), 0, Q10)) + Q10*0, rev(cumsum(ifelse(is.na(Q90), 0, Q90)) + Q90*0)) + c(marScaled, rev(marScaled)),
             col=adjustcolor('#0098B2', alpha.f=0.1), border=NA)
-    polygon(x=c(nc_decade, rev(nc_decade)), y=c(cumsum(Q25), rev(cumsum(Q75))) + c(marScaled, rev(marScaled)),
+    polygon(x=c(nc_decade, rev(nc_decade)), y=c(cumsum(ifelse(is.na(Q25), 0, Q25)) + Q25*0, rev(cumsum(ifelse(is.na(Q75), 0, Q75)) + Q75*0)) + c(marScaled, rev(marScaled)),
             col=adjustcolor('#0098B2', alpha.f=0.1), border=NA)
     loessSmooth = loess(cumsum(Q_mn + marScaled) ~ nc_decade)
     #			lines(nc_decade, waterIndexPlot[thisLoc, , 17, thisScen, thisIndexVal], 

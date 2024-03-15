@@ -5,7 +5,8 @@ indexPlotter_f = function(waterIndexDataPlot = NULL, thisLoc = NULL, thisScen = 
   indexValues = c('Aridity Index - Avg', 'Local (avg)', 'Aridity Index - Drought', 'Local (drought)', 'Aridity Index w/ Irrigation - Avg', 'L + Regional (avg)', 'Aridity Index w/ Irrigation - Drought', 'L + Regional (drought)')
   for(thisIndexVal in indexValuesToPlot)	{
     # waterIndexDataPlot is in format [location, decade, indexValueQuant, scenario, indexValue, indexValueClass]
-    plotRange = c(min(min(waterIndexDataPlot[thisLoc, , , , indexValuesToPlot, thisValType])*1.025, 0.9),  max(max(waterIndexDataPlot[thisLoc, , , , indexValuesToPlot, thisValType])*1.025, 1.1))
+    plotRange = c(min(min(waterIndexDataPlot[thisLoc, , , , indexValuesToPlot, thisValType], na.rm=TRUE)*1.025, 0.9),  
+                  max(max(waterIndexDataPlot[thisLoc, , , , indexValuesToPlot, thisValType], na.rm=TRUE)*1.025, 1.1))
     plot(nc_decade, waterIndexDataPlot[thisLoc, , 8, thisScen, thisIndexVal, thisValType],  
          ylim = plotRange, #log='y',
          type='l', lwd=1, col='white', xaxt = 'n', #log='y',

@@ -9,8 +9,8 @@ twoByTwoPlotter_f = function(twoByTwoTables = NULL, whichLocs = NULL, stressClas
     axis.title.x = element_blank(), axis.title.y = element_blank())
   
   if(stressClass == 2) {
-    ylimRange = max(abs(range(twoByTwoTables$Trajectory)))
     myTable = subset(twoByTwoTables, waterClass == 2)[locRange]
+    ylimRange = max(abs(range(myTable$Trajectory)))
     myPlot = ggplot(myTable) +
       geom_rect(aes(xmin=0,xmax=1,ymin=0,ymax=ylimRange),fill='beige', alpha=.1) +
       geom_rect(aes(xmin=1,xmax=2,ymin=-ylimRange,ymax=0),fill='beige', alpha=.1) +
@@ -27,8 +27,8 @@ twoByTwoPlotter_f = function(twoByTwoTables = NULL, whichLocs = NULL, stressClas
 
   
   if(stressClass == 1) {
-    ylimRange = max(abs(range(twoByTwoTables$Trajectory)))
     myTable = subset(twoByTwoTables, waterClass == 1)[locRange]
+    ylimRange = max(abs(range(myTable$Trajectory)))
     myPlot = ggplot(myTable) +
       geom_rect(aes(xmin=0,xmax=1,ymin=0,ymax=ylimRange),fill='beige', alpha=.1) +
       geom_rect(aes(xmin=1,xmax=2,ymin=-ylimRange,ymax=0),fill='beige', alpha=.1) +
@@ -45,8 +45,8 @@ twoByTwoPlotter_f = function(twoByTwoTables = NULL, whichLocs = NULL, stressClas
   
 
   if(stressClass == 4) {
-    ylimRange = max(abs(range(twoByTwoTables$Trajectory)))
     myTable = subset(twoByTwoTables, waterClass == 4)[locRange]
+    ylimRange = max(abs(range(myTable$Trajectory)))
     if(any(myTable$Current_Value > 2)) {myTable$Current_Value[myTable$Current_Value > 2] = 2}
     myPlot = ggplot(myTable) +
       geom_rect(aes(xmin=0,xmax=1,ymin=0,ymax=ylimRange),fill='beige', alpha=.1) +
@@ -63,8 +63,8 @@ twoByTwoPlotter_f = function(twoByTwoTables = NULL, whichLocs = NULL, stressClas
   }
   
   if(stressClass == 3) {
-    ylimRange = max(abs(range(twoByTwoTables$Trajectory)))
     myTable = subset(twoByTwoTables, waterClass == 3)[locRange]
+    ylimRange = max(abs(range(myTable$Trajectory)))
     if(any(myTable$Current_Value > 2)) {myTable$Current_Value[myTable$Current_Value > 2] = 2}
     myPlot = ggplot(myTable) +
       geom_rect(aes(xmin=0,xmax=1,ymin=0,ymax=ylimRange),fill='beige', alpha=.1) +

@@ -87,15 +87,15 @@ ui <- fluidPage(
                                     fluidRow(
                                       column(6,
                                              radioButtons(inputId = "locationToggle", label = "Toggle Locations",
-                                                          choices = list("Hide" = 0, "Show" = 0.5), selected = 0
+                                                          choices = list("Locations" = FALSE, "Watersheds" = TRUE), selected = FALSE
                                              )
                                       ),
                                       column(6,
                                              selectInput(inputId = "mapValueToPlot", label = "Value to Map:",
-                                                         c("Recent Storage Trends (scaled) [mm/yr]" = 6, "Recent Storage Trends [mm/yr]" = 5, 
+                                                         c("Recent Storage Trends [mm/yr]" = 5, "Recent Storage Trends (scaled) [mm/yr]" = 6, 
                                                            "Local (drought) [-]" = 2, "Local (typical) [-]" = 1, 
                                                            "Regional (drought) [-]" = 4, "Regional (typical) [-]" = 3,
-                                                           "Projected Precip Trends [mm/yr]" = 7, "Projected Streamflow Trends [km3/yr]" = 8,
+                                                           "Projected Precip Trends [mm/yr/dc]" = 7, "Projected Streamflow Trends [km3/yr/dc]" = 8,
                                                            "Aridity Index [-]" = 10,"Current Avg Precip [mm/yr]" = 9)
                                              )
                                       )
@@ -138,7 +138,7 @@ ui <- fluidPage(
                              column(4,
                                     hr(),
                                     hr(),
-                                    h4('Index Values by Decade', style = "text-align: center;"),
+                                    h4('Index Summary Table', style = "text-align: center;"),
                                     DT::dataTableOutput("portfolioSummaryTable"),
                                     img(src='locationSummaryLegend.png', align = "right", width = "100%")
                              )
@@ -269,13 +269,14 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain.csv", skip=1)
   customerInputSf = sf::st_as_sf(customerInputTable, coords=c("Longitude", "Latitude"), crs = 4326)
-  climateArray = readRDS("./Data/McCain_Feb2024_regional_rawValues.rds")
-  indexArray = readRDS("./Data/McCain_Feb2024_local_waterIndex.rds")
-  watershedIndexArray = readRDS("./Data/McCain_Feb2024_regional_waterIndex.rds")
-  graceHistorical = data.table::fread("./Data/McCain_Feb2024_graceHistorical.csv")
-  basinSummary = data.table::fread("./Data/McCain_Feb2024_regional_hydroBasins_wIndex.csv")
+  climateArray = readRDS("./Data/McCain_Mar2024_regional_rawValues.rds")
+  indexArray = readRDS("./Data/McCain_Mar2024_local_waterIndex.rds")
+  watershedIndexArray = readRDS("./Data/McCain_Mar2024_regional_waterIndex.rds")
+  graceHistorical = data.table::fread("./Data/McCain_Mar2024_graceHistorical.csv")
+  basinSummary_ws = data.table::fread("./Data/McCain_Mar2024_regional_hydroBasins_wIndex.csv")
+  basinSummary = data.table::fread("./Data/McCain_Mar2024local_hydroBasins_wIndex.csv")
   basinSummary$AridityIndex = basinSummary$currentPrecip_avg / basinSummary$currentPET_avg
-  basinShapes = sf::st_read("./Data/McCain_Feb2024_hydroBasins_shapesOnly.shp")
+  basinShapes = sf::st_read("./Data/McCain_Mar2024_hydroBasins_shapesOnly.shp")
   
   graceSub <- reactive({
     list(subset(graceHistorical, Location == input$location), which(customerInputTable$Location_Name == input$location))
@@ -304,7 +305,9 @@ server <- function(input, output, session) {
   
   # summary text
   output$summaryText = renderText({
-    basinSub = basinSummary[as.numeric(graceSub()[[2]]), ]
+    thisBasin = as.numeric(graceSub()[[2]])
+    basinSub = basinSummary[thisBasin, ]
+    basinSub = basinSummary_ws[thisBasin, ]
     if(basinSub$thisFrcAreaUnderCult >= 0.05)  {
       incOrDecGrace = ifelse(basinSub$recentHistoricSlope >= 0, "increase", "decrease") 
       myText = paste0("Recent historical storage ", incOrDecGrace, " of ", round(basinSub$recentHistoricSlope, 0), " mm per year, or ",
@@ -344,10 +347,10 @@ server <- function(input, output, session) {
     thisValType = as.numeric(input$valType)
     myTable = data.table::data.table(
       "Decade" = factor(seq(2010, 2090, 10)), 
-      "Local (drought)" =        indexArray[thisLoc, , 4, thisScen, 4, thisValType],
-      "Local (average)" =        indexArray[thisLoc, , 4, thisScen, 2, thisValType],
-      "Regional (drought)" = indexArray[thisLoc, , 4, thisScen, 8, thisValType],
-      "Regional (average)" = indexArray[thisLoc, , 4, thisScen, 6, thisValType]
+      "Local (drought)" =        indexArray[thisLoc, , 8, thisScen, 4, thisValType],
+      "Local (average)" =        indexArray[thisLoc, , 8, thisScen, 2, thisValType],
+      "Regional (drought)" = indexArray[thisLoc, , 8, thisScen, 8, thisValType],
+      "Regional (average)" = indexArray[thisLoc, , 8, thisScen, 6, thisValType]
     )
     myTable
   })
@@ -385,16 +388,32 @@ server <- function(input, output, session) {
       absMax = max(abs(watershed_plotter[[1]]), na.rm=TRUE)
       thisRange = seq(-absMax, absMax, length.out = 10)
     }
-    if(thisStressClass == 9) {thisRange = seq(0,2000,200)}
+    if(thisStressClass == 9) {thisRange = seq(0, 2000,200)}
     if(thisStressClass == 10) {thisRange = seq(0,2, length.out = 10)}
-    mapviewOptions(basemaps = c("OpenStreetMap.DE","Esri.WorldImagery", "Esri.WorldShadedRelief", "OpenTopoMap"))
-    myMap =
-      mapview(
-        watershed_plotter, at = thisRange, col.regions = thisPal, 
-        color = 'grey20', lwd = 1, alpha.regions = 0.5, legend=TRUE, layer.name="Values"
-      ) +
-      mapview(customerInputSf, alpha = as.numeric(input$locationToggle), cex = 3.75, col.regions="forestgreen", 
-              alpha.regions = as.numeric(input$locationToggle), legend=FALSE)
+    mapviewOptions(
+      basemaps = c("OpenStreetMap.DE","Esri.WorldImagery", "Esri.WorldShadedRelief", "OpenTopoMap"),
+      legend.pos = "bottomright")
+    if(input$locationToggle) {
+      myMap =
+        mapview(
+          watershed_plotter, at = thisRange, col.regions = thisPal, 
+          #zcolor = thisPal, #color = 'grey20',
+          lwd = 0.5, 
+          alpha.regions = 0.5, 
+          legend=TRUE,
+          layer.name="Values"
+        )       
+    } else {
+      sf::st_geometry(watershed_plotter) = sf::st_geometry(customerInputSf)
+      myMap = 
+        mapview(
+          watershed_plotter, at = thisRange, 
+          cex = 3.75,
+          col.regions = thisPal, 
+          legend=TRUE,
+          layer.name="Values"
+        )
+    }
     myMap@map
   })
   
@@ -472,10 +491,10 @@ server <- function(input, output, session) {
     thisArray = locationSpecificWRIcalcs()[[1]]
     myTable = data.table::data.table(
       "Decade" = factor(seq(2010, 2090, 10)), 
-      "Local (drought)" =        thisArray[thisLoc, , 4, thisScen, 4, thisValType],
-      "Local (average)" =        thisArray[thisLoc, , 4, thisScen, 2, thisValType],
-      "Regional (drought)" = thisArray[thisLoc, , 4, thisScen, 8, thisValType],
-      "Regional (average)" = thisArray[thisLoc, , 4, thisScen, 6, thisValType]
+      "Local (drought)" =        thisArray[thisLoc, , 8, thisScen, 4, thisValType],
+      "Local (average)" =        thisArray[thisLoc, , 8, thisScen, 2, thisValType],
+      "Regional (drought)" = thisArray[thisLoc, , 8, thisScen, 8, thisValType],
+      "Regional (average)" = thisArray[thisLoc, , 8, thisScen, 6, thisValType]
     )
     myTable
   })
