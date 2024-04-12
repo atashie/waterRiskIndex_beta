@@ -85,18 +85,24 @@ ui <- fluidPage(
                              class="myRow2",
                              column(7,
                                     fluidRow(
-                                      column(6,
+                                      column(4,
                                              radioButtons(inputId = "locationToggle", label = "Toggle Locations",
                                                           choices = list("Locations" = FALSE, "Watersheds" = TRUE), selected = FALSE
                                              )
                                       ),
-                                      column(6,
+                                      column(4,
                                              selectInput(inputId = "mapValueToPlot", label = "Value to Map:",
                                                          c("Recent Storage Trends [mm/yr]" = 5, "Recent Storage Trends (scaled) [mm/yr]" = 6, 
                                                            "Local (drought) [-]" = 2, "Local (typical) [-]" = 1, 
                                                            "Regional (drought) [-]" = 4, "Regional (typical) [-]" = 3,
                                                            "Projected Precip Trends [mm/yr/dc]" = 7, "Projected Streamflow Trends [km3/yr/dc]" = 8,
                                                            "Aridity Index [-]" = 10,"Current Avg Precip [mm/yr]" = 9)
+                                             )
+                                      ),
+                                      column(4,
+                                             selectInput(inputId = "mapIndexClassToPlot", label = "Index Classes:",
+                                                         c("A"="A", "B"="B", "C"="C","D"="D","E"="E"),
+                                                         multiple = TRUE, selected = c("A","B","C","D","E")
                                              )
                                       )
                                     ),
@@ -375,13 +381,24 @@ server <- function(input, output, session) {
   # outputs for portfolio view tab
   Watershed_Boundaries = cbind(customerInputTable$Location_Name, basinShapes, basinSummary)
   
+  #### for portvolio view map:
+  deficitTable = data.table::data.table("Index_Class" = rep("E", nrow(basinSummary)))
+  deficitTable$Index_Class[which(basinSummary$currentDeficit_C >= 0)] = "D"
+  deficitTable$Index_Class[which(basinSummary$currentDeficit_D >= 0)] = "C"
+  deficitTable$Index_Class[which(basinSummary$currentDeficit_A >= 0)] = "B"
+  deficitTable$Index_Class[which(basinSummary$currentDeficit_B >= 0)] = "A"
+
+  colsToPlot = c("currentRatio_A", "currentRatio_B", "currentRatio_C", "currentRatio_D",
+                 "recentHistoricSlope", "rescaledRecentHistoricSlope",
+                 "trendMed_Precip_avg", "trendMed_Streamflow_avg",
+                 "currentPrecip_avg", "AridityIndex")
+  
   output$pfMap = renderLeaflet({
     thisStressClass = as.numeric(input$mapValueToPlot)
-    plotThisCol = c("currentRatio_A", "currentRatio_B", "currentRatio_C", "currentRatio_D",
-                    "recentHistoricSlope", "rescaledRecentHistoricSlope",
-                    "trendMed_Precip_avg", "trendMed_Streamflow_avg",
-                    "currentPrecip_avg", "AridityIndex")[thisStressClass]
-    watershed_plotter = Watershed_Boundaries[,plotThisCol]
+    plotThisCol = colsToPlot[thisStressClass]
+    plotTheseRows = which(deficitTable$Index_Class %in% input$mapIndexClassToPlot)
+    watershed_plotter = cbind(Watershed_Boundaries[plotTheseRows, plotThisCol], customerInputTable$Location_Name[plotTheseRows])
+    names(watershed_plotter) = c("Value","Location Name", "Index")
     thisPal = ifelse(thisStressClass %in% c(1:8), colorRampPalette(c("red3", "white", "blue3")), colorRampPalette(c("red1",'yellow2', "blue4")))
     if(thisStressClass < 5) {thisRange = seq(0,2,0.2)}
     if(thisStressClass %in% c(5:8)) {
@@ -397,6 +414,7 @@ server <- function(input, output, session) {
       myMap =
         mapview(
           watershed_plotter, at = thisRange, col.regions = thisPal, 
+          zcol = "Value",
           #zcolor = thisPal, #color = 'grey20',
           lwd = 0.5, 
           alpha.regions = 0.5, 
@@ -404,10 +422,11 @@ server <- function(input, output, session) {
           layer.name="Values"
         )       
     } else {
-      sf::st_geometry(watershed_plotter) = sf::st_geometry(customerInputSf)
+      sf::st_geometry(watershed_plotter) = sf::st_geometry(customerInputSf[plotTheseRows, ])
       myMap = 
         mapview(
           watershed_plotter, at = thisRange, 
+          zcol = "Value",
           cex = 3.75,
           col.regions = thisPal, 
           legend=TRUE,
