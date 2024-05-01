@@ -1,4 +1,4 @@
-classSummaryTableMaker_f = function(basinSummary = NULL, scenario = NULL) {
+classSummaryTableMaker_f = function(basinSummary = NULL, scenario = NULL, categoryThreshold = 0.95) {
   numRows = nrow(basinSummary)
   
   if(scenario == 1){
@@ -7,19 +7,19 @@ classSummaryTableMaker_f = function(basinSummary = NULL, scenario = NULL) {
       "Trend_raw" = basinSummary$trendLow_Deficit_C
     )
     
-    theseRows = which(basinSummary$currentDeficit_C >= 0)
+    theseRows = which(basinSummary$currentRatio_C >= categoryThreshold)
     myTable$Index_Class[theseRows] = "D"
     myTable$Trend_raw[theseRows] = basinSummary$trendLow_Deficit_C[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_D >= 0)
+    theseRows = which(basinSummary$currentRatio_D >= categoryThreshold)
     myTable$Index_Class[theseRows] = "C"
     myTable$Trend_raw[theseRows] = basinSummary$trendLow_Deficit_D[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_A >= 0)
+    theseRows = which(basinSummary$currentRatio_A >= categoryThreshold)
     myTable$Index_Class[theseRows] = "B"
     myTable$Trend_raw[theseRows] = basinSummary$trendLow_Deficit_A[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_B >= 0)
+    theseRows = which(basinSummary$currentRatio_B >= categoryThreshold)
     myTable$Index_Class[theseRows] = "A"
     myTable$Trend_raw[theseRows] = basinSummary$trendLow_Deficit_B[theseRows]
     }
@@ -31,19 +31,19 @@ classSummaryTableMaker_f = function(basinSummary = NULL, scenario = NULL) {
       "Trend_raw" = basinSummary$trendMed_Deficit_C
     )
     
-    theseRows = which(basinSummary$currentDeficit_C >= 0)
+    theseRows = which(basinSummary$currentRatio_C >= categoryThreshold)
     myTable$Index_Class[theseRows] = "D"
     myTable$Trend_raw[theseRows] = basinSummary$trendMed_Deficit_C[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_D >= 0)
+    theseRows = which(basinSummary$currentRatio_D >= categoryThreshold)
     myTable$Index_Class[theseRows] = "C"
     myTable$Trend_raw[theseRows] = basinSummary$trendMed_Deficit_D[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_A >= 0)
+    theseRows = which(basinSummary$currentRatio_A >= categoryThreshold)
     myTable$Index_Class[theseRows] = "B"
     myTable$Trend_raw[theseRows] = basinSummary$trendMed_Deficit_A[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_B >= 0)
+    theseRows = which(basinSummary$currentRatio_B >= categoryThreshold)
     myTable$Index_Class[theseRows] = "A"
     myTable$Trend_raw[theseRows] = basinSummary$trendMed_Deficit_B[theseRows]
   }
@@ -55,19 +55,19 @@ classSummaryTableMaker_f = function(basinSummary = NULL, scenario = NULL) {
       "Trend_raw" = basinSummary$trendHigh_Deficit_C
     )
 
-    theseRows = which(basinSummary$currentDeficit_C >= 0)
+    theseRows = which(basinSummary$currentRatio_C >= categoryThreshold)
     myTable$Index_Class[theseRows] = "D"
     myTable$Trend_raw[theseRows] = basinSummary$trendHigh_Deficit_C[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_D >= 0)
+    theseRows = which(basinSummary$currentRatio_D >= categoryThreshold)
     myTable$Index_Class[theseRows] = "C"
     myTable$Trend_raw[theseRows] = basinSummary$trendHigh_Deficit_D[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_A >= 0)
+    theseRows = which(basinSummary$currentRatio_A >= categoryThreshold)
     myTable$Index_Class[theseRows] = "B"
     myTable$Trend_raw[theseRows] = basinSummary$trendHigh_Deficit_A[theseRows]
     
-    theseRows = which(basinSummary$currentDeficit_B >= 0)
+    theseRows = which(basinSummary$currentRatio_B >= categoryThreshold)
     myTable$Index_Class[theseRows] = "A"
     myTable$Trend_raw[theseRows] = basinSummary$trendHigh_Deficit_B[theseRows]
   }

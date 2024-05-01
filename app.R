@@ -11,6 +11,7 @@ library(shiny)
 source("./gracePlotter.R")
 source("./indexPlotter.R")
 source("./climatePlotter.R")
+source("./climatePlotterMonthly.R")
 source("./locationTableMaker.R")
 source("./locationSummaryTableMaker.R")
 #source("./twoByTwoPlotter.R")
@@ -30,7 +31,8 @@ library(gridExtra)
 library(ggrepel)
 library(DT) # for interactive tables via datatable()
 #library(plotly)
-customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain.csv", skip=1)
+customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain_Mar2024.csv", skip=1)
+#customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain.csv", skip=1)
 #customerInputTable = data.table::fread("./Data/Customer Onboarding Information_RaboChile.csv", skip=1)
 
 # Define UI for application that draws a histogram
@@ -109,17 +111,33 @@ ui <- fluidPage(
                                     mapviewOutput("pfMap", height = "400px")
                              ),
                              column(5,
-                                    hr(),
+                                    tags$footer(
+                                      "For further information visit the ",
+                                      tags$a(
+                                        "Water Risk Index Summary page",
+                                        target = "_blank",
+                                        href = "https://climateaiteam.notion.site/Water-Risk-Index-Summary-Overview-fa0b8822e3f44f119d7916f961d10c3e?pvs=4"
+                                      ),
+                                      style = "position: absolute; width: 100%; color: black; text-align: center;"
+                                    ),
                                     hr(),
                                     h4("Summary by Index Class and Trend", style = "text-align: center;"),
-                                    plotOutput("classSummaryBarplot")
+                                    plotOutput("classSummaryBarplot"),
+                                    tags$footer(
+                                      tags$em(
+                                      "(A) Local resources consistently sufficient. (B) Local resources stressed during drought. (C) Local + Regional resources consistently sufficient. (D) Local + Regional resources stressed during drought. (E) Demand consistently exceeds Local + Regional resources."
+                                      ),
+                                      style = "position: absolute; width: 100%; color: black; text-align: left;"
+                                    )
                              )
                            ),
                            hr(),
                            hr(),
                            fluidRow(
                              #                    class="myrow3",
-                             hr(),
+                             h4(". ", style = "color: white"),
+                             h4(". ", style = "color: white"),
+                             h4(". ", style = "color: white"),
                              hr(),
                              h3("2x2 Hazard Overview:"),
                              column(8,
@@ -207,6 +225,15 @@ ui <- fluidPage(
                              column(4, 
                                     h4('Highlights:'),
                                     textOutput("climateText"))
+                           ),
+                           fluidRow(
+                             hr(),
+                             h3("Monthly Hydroclimate Projections", style = "text-align: center;"),
+                             selectInput(inputId = "monthlyClimVar", label = "Hydroclimate Variable:",
+                                         c("Precipitation [mm]" = 1, "Potential Evapotranspiration [mm]" = 2,
+                                           "Streamflow [km3]" = 4, "Soil Moisture [%]" = 5)),
+                             plotOutput("climateMonthlyPlot"),
+                             hr()
                            )
                   ),
                   # Third Tab
@@ -273,7 +300,7 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-  customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain.csv", skip=1)
+  customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain_Mar2024.csv", skip=1)
   customerInputSf = sf::st_as_sf(customerInputTable, coords=c("Longitude", "Latitude"), crs = 4326)
   climateArray = readRDS("./Data/McCain_Mar2024_regional_rawValues.rds")
   indexArray = readRDS("./Data/McCain_Mar2024_local_waterIndex.rds")
@@ -283,6 +310,7 @@ server <- function(input, output, session) {
   basinSummary = data.table::fread("./Data/McCain_Mar2024local_hydroBasins_wIndex.csv")
   basinSummary$AridityIndex = basinSummary$currentPrecip_avg / basinSummary$currentPET_avg
   basinShapes = sf::st_read("./Data/McCain_Mar2024_hydroBasins_shapesOnly.shp")
+  thisCategoryThreshold = 0.95 # setting the threshold below which a location falls into a higher investment category
   
   graceSub <- reactive({
     list(subset(graceHistorical, Location == input$location), which(customerInputTable$Location_Name == input$location))
@@ -306,6 +334,7 @@ server <- function(input, output, session) {
   # grace plotter
   output$gracePlot <- renderPlot({
     plotData = graceSub()[[1]]
+    
     gracePlotter_f(plotData)
   })
   
@@ -376,17 +405,22 @@ server <- function(input, output, session) {
   output$climateText = renderText({
     climateText_f(basinSummary = basinSummary, scenario = as.numeric(input$scenario), thisLoc = as.numeric(graceSub()[[2]]))
   })
-  
+
+  # climate monthly plotter
+  output$climateMonthlyPlot <- renderPlot({
+    climatePlotterMonthly_f(climateDataPlot = climateArray, thisLoc = as.numeric(graceSub()[[2]]), thisScen = as.numeric(input$scenario), thisClimVar = as.numeric(input$monthlyClimVar))
+  })
+
   ###################################  
   # outputs for portfolio view tab
   Watershed_Boundaries = cbind(customerInputTable$Location_Name, basinShapes, basinSummary)
   
   #### for portvolio view map:
   deficitTable = data.table::data.table("Index_Class" = rep("E", nrow(basinSummary)))
-  deficitTable$Index_Class[which(basinSummary$currentDeficit_C >= 0)] = "D"
-  deficitTable$Index_Class[which(basinSummary$currentDeficit_D >= 0)] = "C"
-  deficitTable$Index_Class[which(basinSummary$currentDeficit_A >= 0)] = "B"
-  deficitTable$Index_Class[which(basinSummary$currentDeficit_B >= 0)] = "A"
+  deficitTable$Index_Class[which(basinSummary$currentRatio_C >= thisCategoryThreshold)] = "D"
+  deficitTable$Index_Class[which(basinSummary$currentRatio_D >= thisCategoryThreshold)] = "C"
+  deficitTable$Index_Class[which(basinSummary$currentRatio_A >= thisCategoryThreshold)] = "B"
+  deficitTable$Index_Class[which(basinSummary$currentRatio_B >= thisCategoryThreshold)] = "A"
 
   colsToPlot = c("currentRatio_A", "currentRatio_B", "currentRatio_C", "currentRatio_D",
                  "recentHistoricSlope", "rescaledRecentHistoricSlope",
@@ -398,7 +432,7 @@ server <- function(input, output, session) {
     plotThisCol = colsToPlot[thisStressClass]
     plotTheseRows = which(deficitTable$Index_Class %in% input$mapIndexClassToPlot)
     watershed_plotter = cbind(Watershed_Boundaries[plotTheseRows, plotThisCol], customerInputTable$Location_Name[plotTheseRows])
-    names(watershed_plotter) = c("Value","Location Name", "Index")
+    names(watershed_plotter) = c("Value","Location Name", "geometry")
     thisPal = ifelse(thisStressClass %in% c(1:8), colorRampPalette(c("red3", "white", "blue3")), colorRampPalette(c("red1",'yellow2', "blue4")))
     if(thisStressClass < 5) {thisRange = seq(0,2,0.2)}
     if(thisStressClass %in% c(5:8)) {
@@ -437,11 +471,11 @@ server <- function(input, output, session) {
   })
   
   output$classSummaryBarplot <- renderPlot({
-    classSummaryTableMaker_f(basinSummary = basinSummary, scenario = as.numeric(input$scenario))
+    classSummaryTableMaker_f(basinSummary = basinSummary, scenario = as.numeric(input$scenario), categoryThreshold = thisCategoryThreshold)
   })
   
   output$portfolioSummaryTable <- DT::renderDataTable({
-    locationSummaryTableMaker_f(customerInputTable, basinSummary, scenario = as.numeric(input$scenario))
+    locationSummaryTableMaker_f(customerInputTable, basinSummary, scenario = as.numeric(input$scenario), categoryThreshold = thisCategoryThreshold)
   })
   
   output$portfolioTable <- DT::renderDataTable({
@@ -461,10 +495,10 @@ server <- function(input, output, session) {
   
   # two by two highlights
   output$portfolioHighlights1 = renderText({
-    twoByTwoSummaryText_f(twoByTwoTables = twoByTwoTables(), whichText=1)
+    twoByTwoSummaryText_f(twoByTwoTables = twoByTwoTables(), whichText=1, categoryThreshold = thisCategoryThreshold)
   })
   output$portfolioHighlights2 = renderText({
-    twoByTwoSummaryText_f(twoByTwoTables = twoByTwoTables(), whichText=2)
+    twoByTwoSummaryText_f(twoByTwoTables = twoByTwoTables(), whichText=2, categoryThreshold = thisCategoryThreshold)
   })
   
   ##################################################################

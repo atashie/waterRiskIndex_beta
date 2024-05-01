@@ -1,0 +1,43 @@
+Mandatory Information,,,,Optional Information,,,,,,,,,,,,,,,,,Unused Information,,,,
+Username,Location_Name,Latitude,Longitude,Precipitation_annualAvg_mm,PotentialEvapotranspiration_annualAvg_mm,SurfaceWater_annualAvgFlows_km3,Groundwater_annualAvgRecharge_mm,SoilMoisture_annualAvg_pct,SurfaceWaterDiversion_Percent,SurfaceWaterDiversion_averageInCubicKM,CurrentStorageTrend_mm,Groundwater_Access,SoilMoisture_Access,DripIrrigation,OnsiteReservoirs,GrowMonth_Start,GrowMonth_End,PrimaryCrop,TotalAreaUnderCultivation_km2,Annual_Water_Needs_mm,OnsiteStorage_other,Location_Address,SecondaryCrop,SoilClass,Region
+McCain_initial42,CH_Hailar - Inner Mongolia,49.185011,119.8921719,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,CH
+McCain_initial42,CH_Yuyang District - Shaanxi,38.46621071,109.5119253,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,CH
+McCain_initial42,WA_Othello,46.77327571,-119.1491748,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,9,,,600,,,,,WA
+McCain_initial42,AB_Taber,49.8291073,-112.1327137,,,,,,,,,TRUE,TRUE,FALSE,FALSE,4,9,,,600,,,,,AB
+McCain_initial42,AB_Scandia,50.26958052,-112.0562337,,,,,,,,,TRUE,TRUE,FALSE,FALSE,4,9,,,600,,,,,AB
+McCain_initial42,ID_Grand view,42.95086977,-115.8981439,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,9,,,600,,,,,ID
+McCain_initial42,ID_Burley,42.56804061,-113.8542987,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,9,,,600,,,,,ID
+McCain_initial42,MB_Portage la Prairie,49.95137816,-98.1919566,,,,,,,,,TRUE,TRUE,FALSE,FALSE,4,9,,,600,,,,,MB
+McCain_initial42,MB_Carberry,49.96627142,-99.39399256,,,,,,,,,TRUE,TRUE,FALSE,FALSE,4,9,,,600,,,,,MB
+McCain_initial42,WI_Spring Brook,44.79000502,-91.73534006,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,9,,,600,,,,,WI
+McCain_initial42,WI_Plover,44.20821803,-89.54366941,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,9,,,600,,,,,WI
+McCain_initial42,ME_Caribou,46.8504363,-67.87416395,,,,,,,,,TRUE,TRUE,FALSE,FALSE,4,9,,,600,,,,,NB
+McCain_initial42,NB_Florenceville,46.43951808,-67.6385017,,,,,,,,,TRUE,TRUE,FALSE,FALSE,4,9,,,600,,,,,NB
+McCain_initial42,CO_Bogota,4.832234135,-74.20071162,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,3,,,600,,,,,CO
+McCain_initial42,AR_Balcarce,-37.80117765,-58.5086255,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,2,,,600,,,,,AR
+McCain_initial42,BR_Sao Domigos,-12.82637666,-45.82613838,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,7,,,600,,,,,BR
+McCain_initial42,BR_Chapeco,-26.52657452,-52.2760719,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,7,,,600,,,,,BR
+McCain_initial42,BR_Araxa,-19.34633078,-47.52247243,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,7,,,600,,,,,BR
+McCain_initial42,SA_Polokwane,-23.13046799,29.3119895,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,1,,,600,,,,,SA
+McCain_initial42,SA_Rustenburg,-26.28178622,27.16308651,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,1,,,600,,,,,SA
+McCain_initial42,NL_Flevoland,52.51915558,5.721992217,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,NL
+McCain_initial42,BE_Waterloo,50.61579047,4.630703435,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,FR
+McCain_initial42,FR_Matouges,48.85441609,4.416818556,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,FR
+McCain_initial42,FR_Betune,50.57716398,2.545413975,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,FR
+McCain_initial42,GB_Norwich,52.71918621,1.158282432,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,7,,,600,,,,,GB
+McCain_initial42,GB_Wombourne,52.61030459,-2.376383015,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,7,,,600,,,,,GB
+McCain_initial42,PL_Strzelin,50.8794223,17.07407625,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,PL
+McCain_initial42,IN_Idar Gujarat,23.86054213,73.12649321,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,1,,,600,,,,,IN
+McCain_initial42,CH_Guyuan County,41.82162969,115.7992195,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,CH
+McCain_initial42,AU_Penola,-37.52468998,140.7007432,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,2,,,600,,,,,AU
+McCain_initial42,AU_Ballarat,-37.47954914,143.9953196,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,2,,,600,,,,,AU
+McCain_initial42,NZ_Canterbury,-43.8133739,171.9212799,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,2,,,600,,,,,NZ
+McCain_initial42,DE_Lower Saxony,52.88737751,9.138359657,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,DE
+McCain_initial42,DE_Magdeburg,51.71347359,11.6816453,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,DE
+McCain_initial42,SW_Lund,55.73787961,13.31650354,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,SW
+McCain_initial42,SW_Lake Diefenbaker,51.01623319,-106.6300391,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,SW
+McCain_initial42,IN_Chindwara,22.13300045,79.21067543,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,1,,,600,,,,,CH
+McCain_initial42,TA_Tasmania,-41.24296197,146.1979435,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,2,,,600,,,,,IN
+McCain_initial42,CH_Datong District,46.31595905,124.6650037,,,,,,,,,TRUE,TRUE,FALSE,FALSE,3,8,,,600,,,,,TA
+McCain_initial42,IN_Jethi Gujarat,24.33348609,72.51537571,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,1,,,600,,,,,CH
+McCain_initial42,IN_Indore Madhya Pradesh,22.93751146,75.78211496,,,,,,,,,TRUE,TRUE,FALSE,FALSE,9,1,,,600,,,,,IN
