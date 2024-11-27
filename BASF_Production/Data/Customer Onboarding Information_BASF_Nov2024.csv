@@ -1,0 +1,28 @@
+Mandatory Information,,,,Optional Information,,,,,,,,,,,,,,,,,Unused Information,,,,
+Username,Location_Name,Latitude,Longitude,Precipitation_annualAvg_mm,PotentialEvapotranspiration_annualAvg_mm,SurfaceWater_annualAvgFlows_km3,Groundwater_annualAvgRecharge_mm,SoilMoisture_annualAvg_pct,SurfaceWaterDiversion_Percent,SurfaceWaterDiversion_averageInCubicKM,CurrentStorageTrend_mm,Groundwater_Access,SoilMoisture_Access,DripIrrigation,OnsiteReservoirs,GrowMonth_Start,GrowMonth_End,PrimaryCrop,TotalAreaUnderCultivation_km2,Annual_Water_Needs_mm,OnsiteStorage_other,Location_Address,SecondaryCrop,SoilClass,Region
+BASF,Satamba - GUJ,23.172,73.34,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Tomato,,600,,,,,India
+BASF,Yelaburga - KPL,15.617,76.012,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Tomato,,600,,,,,India
+BASF,Deolgaon Raja - MH,20.016,76.029,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Tomato,,600,,,,,India
+BASF,Haunsbhavi - RNR,14.567,75.358,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Tomato,,600,,,,,India
+BASF,Ascoli Satriano,41.197,15.535,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,Italy
+BASF,Brooks - OR - Oregon Western,45.104,-122.797,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Onion,,450,,,,,US
+BASF,Los Aquijes - El Rosario,-14.11214776,-75.67948107,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Tomato,,600,,,,,Peru
+BASF,Province Morropon - la Matanza District- Piura City,-5.23,-80.083,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Tomato,,600,,,,,Peru
+BASF,Odense,55.506,9.473,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Spinach,,450,,,,,Denmark
+BASF,Maribo,55.232,11.77,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Spinach,,450,,,,,Denmark
+BASF,Hazelton - ID - Idaho Magic Valley,42.555,-114.105,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,US
+BASF,Sant Agata Bolognese,44.656,11.127,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,Italy
+BASF,Nunhem,51.245,5.971,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,Netherlands
+BASF,La Grande - OR - Oregon NE,45.323,-117.974,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,US
+BASF,Laingsburg,-33.198,20.857,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,South Africa
+BASF,Mendoza,-33.08,-68.475,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Onion,,450,,,,,Argentina
+BASF,Parma - ID - Idaho Treasure Valley,43.659,-116.882,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,US
+BASF,Terrebonne - OR - Oregon Central,44.353,-121.178,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,US
+BASF,San Juan,-31.683,-68.583,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Onion,,450,,,,,Argentina
+BASF,Upington,-28.762,20.537,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,South Africa
+BASF,George - WA - Washington,47.089,-119.841,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,US
+BASF,Tasmania - Campbell Town,-38.831,140.783,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,Australia
+BASF,Rakaia,-43.7727614,171.1196194,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,New Zealand
+BASF,Khon Kaen,16.055,102.719,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Tomato,,600,,,,,Thailand
+BASF,Udon Thani,17.361,102.993,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Tomato,,600,,,,,Thailand
+BASF,Holtville-CA,32.89668615,-115.4562033,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Carrot,,450,,,,,US

@@ -31,7 +31,7 @@ library(gridExtra)
 library(ggrepel)
 library(DT) # for interactive tables via datatable()
 #library(plotly)
-customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain_Nov2024.csv", skip=1)
+customerInputTable = data.table::fread("./Data/Customer Onboarding Information_ABI_Nov2024.csv", skip=1)
 #customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain.csv", skip=1)
 #customerInputTable = data.table::fread("./Data/Customer Onboarding Information_RaboChile.csv", skip=1)
 
@@ -125,7 +125,7 @@ ui <- fluidPage(
                                     plotOutput("classSummaryBarplot"),
                                     tags$footer(
                                       tags$em(
-                                      "(A) Local resources consistently sufficient. (B) Local resources stressed during drought. (C) Local + Regional resources consistently sufficient. (D) Local + Regional resources stressed during drought. (E) Demand consistently exceeds Local + Regional resources."
+                                        "(A) Local resources consistently sufficient. (B) Local resources stressed during drought. (C) Local + Regional resources consistently sufficient. (D) Local + Regional resources stressed during drought. (E) Demand consistently exceeds Local + Regional resources."
                                       ),
                                       style = "position: absolute; width: 100%; color: black; text-align: left;"
                                     )
@@ -300,16 +300,16 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-  customerInputTable = data.table::fread("./Data/Customer Onboarding Information_McCain_Nov2024.csv", skip=1)
+  customerInputTable = data.table::fread("./Data/Customer Onboarding Information_ABI_Nov2024.csv", skip=1)
   customerInputSf = sf::st_as_sf(customerInputTable, coords=c("Longitude", "Latitude"), crs = 4326)
-  climateArray = readRDS("./Data/McCain_Nov2024_regional_rawValues.rds")
-  indexArray = readRDS("./Data/McCain_Nov2024_local_waterIndex.rds")
-  watershedIndexArray = readRDS("./Data/McCain_Nov2024_regional_waterIndex.rds")
-  graceHistorical = data.table::fread("./Data/McCain_Nov2024_graceHistorical.csv")
-  basinSummary_ws = data.table::fread("./Data/McCain_Nov2024_regional_hydroBasins_wIndex.csv")
-  basinSummary = data.table::fread("./Data/McCain_Nov2024local_hydroBasins_wIndex.csv")
+  climateArray = readRDS("./Data/ABI_Nov2024_regional_rawValues.rds")
+  indexArray = readRDS("./Data/ABI_Nov2024_local_waterIndex.rds")
+  watershedIndexArray = readRDS("./Data/ABI_Nov2024_regional_waterIndex.rds")
+  graceHistorical = data.table::fread("./Data/ABI_Nov2024_graceHistorical.csv")
+  basinSummary_ws = data.table::fread("./Data/ABI_Nov2024_regional_hydroBasins_wIndex.csv")
+  basinSummary = data.table::fread("./Data/ABI_Nov2024local_hydroBasins_wIndex.csv")
   basinSummary$AridityIndex = basinSummary$currentPrecip_avg / basinSummary$currentPET_avg
-  basinShapes = sf::st_read("./Data/McCain_Nov2024_hydroBasins_shapesOnly.shp")
+  basinShapes = sf::st_read("./Data/ABI_Nov2024_hydroBasins_shapesOnly.shp")
   thisCategoryThreshold = 0.95 # setting the threshold below which a location falls into a higher investment category
   
   graceSub <- reactive({
@@ -405,12 +405,12 @@ server <- function(input, output, session) {
   output$climateText = renderText({
     climateText_f(basinSummary = basinSummary, scenario = as.numeric(input$scenario), thisLoc = as.numeric(graceSub()[[2]]))
   })
-
+  
   # climate monthly plotter
   output$climateMonthlyPlot <- renderPlot({
     climatePlotterMonthly_f(climateDataPlot = climateArray, thisLoc = as.numeric(graceSub()[[2]]), thisScen = as.numeric(input$scenario), thisClimVar = as.numeric(input$monthlyClimVar))
   })
-
+  
   ###################################  
   # outputs for portfolio view tab
   Watershed_Boundaries = cbind(customerInputTable$Location_Name, basinShapes, basinSummary)
@@ -421,7 +421,7 @@ server <- function(input, output, session) {
   deficitTable$Index_Class[which(basinSummary$currentRatio_D >= thisCategoryThreshold)] = "C"
   deficitTable$Index_Class[which(basinSummary$currentRatio_A >= thisCategoryThreshold)] = "B"
   deficitTable$Index_Class[which(basinSummary$currentRatio_B >= thisCategoryThreshold)] = "A"
-
+  
   colsToPlot = c("currentRatio_A", "currentRatio_B", "currentRatio_C", "currentRatio_D",
                  "recentHistoricSlope", "rescaledRecentHistoricSlope",
                  "trendMed_Precip_avg", "trendMed_Streamflow_avg",

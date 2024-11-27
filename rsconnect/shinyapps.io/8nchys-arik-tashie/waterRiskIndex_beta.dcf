@@ -5,9 +5,9 @@ account: 8nchys-arik-tashie
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 12827117
-bundleId: 9145271
+bundleId: 9381693
 url: https://climateai.shinyapps.io/waterRiskIndex_beta/
-when: 1727285029.72187
-lastSyncTime: 1727285029.72188
+when: 1731953507.53375
+lastSyncTime: 1731953507.53376
 asMultiple: FALSE
 asStatic: FALSE

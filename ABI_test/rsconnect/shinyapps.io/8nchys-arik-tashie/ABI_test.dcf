@@ -1,0 +1,12 @@
+name: ABI_test
+title: ABI_test
+username: 8nchys-arik-tashie
+account: 8nchys-arik-tashie
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13446357
+bundleId: 9421441
+url: https://climateai.shinyapps.io/ABI_test/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

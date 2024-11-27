@@ -1,0 +1,12 @@
+Mandatory Information,,,,Optional Information,,,,,,,,,,,,,,,,,Unused Information,,,,
+Username,Location_Name,Latitude,Longitude,Precipitation_annualAvg_mm,PotentialEvapotranspiration_annualAvg_mm,SurfaceWater_annualAvgFlows_km3,Groundwater_annualAvgRecharge_mm,SoilMoisture_annualAvg_pct,SurfaceWaterDiversion_Percent,SurfaceWaterDiversion_averageInCubicKM,CurrentStorageTrend_mm,Groundwater_Access,SoilMoisture_Access,DripIrrigation,OnsiteReservoirs,GrowMonth_Start,GrowMonth_End,PrimaryCrop,TotalAreaUnderCultivation_km2,Annual_Water_Needs_mm,OnsiteStorage_other,Location_Address,SecondaryCrop,SoilClass,Region
+ABI,Buenos Aires Province,-38.25,-60.25,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,India
+ABI,Coop Agraria,-25.5,-52,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,
+ABI,Eastern Idaho,43.5,-112.25,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,
+ABI,Western Canada,52.75,-113.25,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,
+ABI,Altiplano,19.75,-98.5,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,
+ABI,Overberg West,-34.25,20,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,
+ABI,Central and Southern Irrigation,-29,24.25,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,
+ABI,Rajasthan,27.5,75.75,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,
+ABI,Western Australia,-33.25,121.25,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,
+ABI,France,47.75,3.5,,,,,,,,,TRUE,TRUE,FALSE,FALSE,,,Barley,,550,,,,,

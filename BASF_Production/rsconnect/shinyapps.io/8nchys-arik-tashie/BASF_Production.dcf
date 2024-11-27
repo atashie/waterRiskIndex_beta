@@ -1,0 +1,13 @@
+name: BASF_Production
+title: BASF_Production
+username:
+account: 8nchys-arik-tashie
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13425147
+bundleId: 9403040
+url: https://climateai.shinyapps.io/BASF_Production/
+when: 1732287509.7449
+lastSyncTime: 1732287509.74492
+asMultiple: FALSE
+asStatic: FALSE
